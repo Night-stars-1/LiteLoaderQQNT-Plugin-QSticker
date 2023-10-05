@@ -1,0 +1,21 @@
+.tabs-container-item#custom_sticker {
+    align-items: center;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    color: var(--icon_primary);
+    display: flex;
+    flex-shrink: 0;
+    height: 40px;
+    justify-content: center;
+    margin-right: 14px;
+    width: 40px;
+}
+.tabs-container-item#custom_sticker:hover {
+    background-color: var(--overlay_hover);
+    color: var(--brand_standard);
+}
+.tabs-container-item-active#custom_sticker, .tabs-container-item-active#custom_sticker:active, .tabs-container-item-active#custom_sticker:hover {
+    background-color: var(--global-brand_standard);
+}

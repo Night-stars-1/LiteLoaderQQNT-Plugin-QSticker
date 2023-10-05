@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "type": "extension",
+    "name": "自定义表情",
+    "slug": "qsticker",
+    "description": "自定义表情",
+    "version": "1.0.0",
+    "author": {
+        "name": "Night-stars-1",
+        "link": "https://github.com/Night-stars-1"
+    },
+    "repository": {
+        "repo": "Night-stars-1/LiteLoaderQQNT-Plugin-QSticker",
+        "branch": "main"
+    },
+    "platform": [
+        "win32",
+        "linux",
+        "darwin"
+    ],
+    "injects": {
+        "renderer": "./src/renderer.js",
+        "main": "./src/main.js",
+        "preload": "./src/preload.js"
+    }
+}
