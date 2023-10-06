@@ -2,7 +2,7 @@
  * @Author: Night-stars-1 nujj1042633805@gmail.com
  * @Date: 2023-08-07 21:07:34
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2023-10-05 19:19:49
+ * @LastEditTime: 2023-10-06 16:57:56
  * @Description: 
  * 
  * Copyright (c) 2023 by Night-stars-1, All Rights Reserved. 
@@ -62,10 +62,11 @@ async function onLoad() {
     link_element.rel = "stylesheet";
     link_element.href = css_file_path;
     document.head.appendChild(link_element);
+    // 自定义表情实现
     LLAPI.once("set_message", () => {
         output("set_message")
         const qsticker = document.querySelector('.icon-item[aria-label="表情"]');
-        function sticker_click(event) {
+        async function sticker_click(event) {
             const stickers = document.querySelector(".sticker-panel__pages:not([id='custom_sticker_1']")
             const click_tab = event.target.closest(".tabs-container-item")
             if (click_tab.id === 'custom_sticker') {
@@ -84,15 +85,17 @@ async function onLoad() {
                     qpages_sticker.style.height = "286px"
                     stickers.parentElement.insertBefore(qpages_sticker, stickers);
                     const stickers_list = qpages_sticker.querySelector(".q-scroll-view")
+                    const images = await images_obj()
                     for (const image of images) {
                         const sticker_item_cloned = sticker_item.cloneNode(true);
-                        sticker_item_cloned.querySelector("img").src = `appimg://${plugin_path}/src/images/${image}`
+                        sticker_item_cloned.title = image.includes('http')? "网络表情":"自定义表情"
+                        sticker_item_cloned.querySelector("img").src = image.includes('http')? image:`appimg://${plugin_path}/src/images/${image}`
                         sticker_item_cloned.addEventListener('click', event => {
                             // 检查事件是否来自按钮
                             if (event.target.tagName === 'IMG') {
                                 const message = {
                                     type: "pic",
-                                    src: `${plugin_path}/src/images/${image}`
+                                    src: image.includes('http')? image:`${plugin_path}/src/images/${image}`
                                 }
                                 document.querySelector(".sticker-panel").style.display = "none"
                                 LLAPI.add_editor(message)

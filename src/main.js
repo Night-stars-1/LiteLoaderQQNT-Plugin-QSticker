@@ -10,25 +10,36 @@
 // 腾讯云TMT
 const { ipcMain } = require("electron");
 const fs = require("fs");
-const path = require("path");
+
+/**
+ * 获取远程表情
+ * @returns 
+ */
+function getRemote(path){
+    const remotePath = `${path}/remotes.txt`;
+    if (!fs.existsSync(remotePath)) return [];
+    const stickerUrls = fs.readFileSync(remotePath).toString("utf8").split("\r\n");
+    return stickerUrls;
+}
 
 function onLoad(plugin, liteloader) {
     const pluginPath = plugin.path.plugin;
     const folderPath = `${pluginPath}/src/images`;
-    // 获取设置
+    // 获取图片表情
     ipcMain.handle(
         "LiteLoader.qsticker.getimage",
         (event) => {
             try {
-                const data = fs.readdirSync(folderPath, "utf-8");
-                return data;
+                let data = fs.readdirSync(folderPath, "utf-8");
+                data = data.filter(item => !item.includes("remotes.txt"));
+                const remote_data = getRemote(folderPath)
+                return data.concat(remote_data);
             } catch (error) {
                 output(error);
-                return {};
+                return [];
             }
         }
     );
-
 }
 
 function output(...args) {
